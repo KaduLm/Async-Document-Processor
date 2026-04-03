@@ -7,6 +7,15 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: document-group
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
   datasource:
     url: ${DATASOURCE_URL}
     username: ${DATASOURCE_USERNAME}

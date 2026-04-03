@@ -1,9 +1,12 @@
 package com.study.asyncdocumentprocessor.application.usecase;
 
 import com.study.asyncdocumentprocessor.application.command.DocumentRequestCommand;
+import com.study.asyncdocumentprocessor.application.dto.DocumentUploadedEvent;
 import com.study.asyncdocumentprocessor.domain.enums.ProcessingStatus;
 import com.study.asyncdocumentprocessor.domain.model.Document;
+import com.study.asyncdocumentprocessor.domain.port.DocumentEventPublisherPort;
 import com.study.asyncdocumentprocessor.domain.repository.DocumentRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UploadDocumentUseCase {
     private final DocumentRepository documentRepository;
+    private final DocumentEventPublisherPort documentEventPublisherPort;
 
     public void uploadDocument(DocumentRequestCommand documentRequestCommand){
         Document document = new Document(
@@ -23,5 +27,9 @@ public class UploadDocumentUseCase {
                 null,
                 LocalDateTime.now());
         documentRepository.save(document);
+
+        DocumentUploadedEvent documentUploadedEvent = new DocumentUploadedEvent(document.getId(), document.getFilePath(), document.getStatus().name());
+
+        documentEventPublisherPort.publish(documentUploadedEvent);
     }
 }
