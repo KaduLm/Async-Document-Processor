@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Slf4j
@@ -25,8 +26,8 @@ public class DocumentController {
     private final FindDocumentUseCase findDocumentUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> uploadDocument(@RequestPart("file") MultipartFile file){
-        uploadDocumentUseCase.uploadDocument(new DocumentRequestCommand(file.getOriginalFilename()));
+    public ResponseEntity<Void> uploadDocument(@RequestPart("file") MultipartFile file) throws IOException {
+        uploadDocumentUseCase.uploadDocument(new DocumentRequestCommand(file));
         return ResponseEntity.ok().build();
     }
 

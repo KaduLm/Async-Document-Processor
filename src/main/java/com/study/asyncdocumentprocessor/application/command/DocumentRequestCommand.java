@@ -1,4 +1,6 @@
 package com.study.asyncdocumentprocessor.application.command;
 
-public record DocumentRequestCommand(String filePath) {
+import org.springframework.web.multipart.MultipartFile;
+
+public record DocumentRequestCommand(MultipartFile file) {
 }

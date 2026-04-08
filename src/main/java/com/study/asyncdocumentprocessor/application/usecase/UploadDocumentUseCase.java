@@ -5,11 +5,14 @@ import com.study.asyncdocumentprocessor.application.dto.DocumentUploadedEvent;
 import com.study.asyncdocumentprocessor.domain.enums.ProcessingStatus;
 import com.study.asyncdocumentprocessor.domain.model.Document;
 import com.study.asyncdocumentprocessor.domain.port.DocumentEventPublisherPort;
+import com.study.asyncdocumentprocessor.domain.port.MinIOPort;
 import com.study.asyncdocumentprocessor.domain.repository.DocumentRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,15 +21,19 @@ import java.util.UUID;
 public class UploadDocumentUseCase {
     private final DocumentRepository documentRepository;
     private final DocumentEventPublisherPort documentEventPublisherPort;
+    private final MinIOPort minIOPort;
 
-    public void uploadDocument(DocumentRequestCommand documentRequestCommand){
+    @Transactional
+    public void uploadDocument(DocumentRequestCommand documentRequestCommand) throws IOException {
         Document document = new Document(
                 UUID.randomUUID(),
-                documentRequestCommand.filePath(),
+                documentRequestCommand.file().getOriginalFilename(),
                 ProcessingStatus.PENDING,
                 null,
                 LocalDateTime.now());
         documentRepository.save(document);
+
+        minIOPort.upload(documentRequestCommand.file().getOriginalFilename(), documentRequestCommand.file().getInputStream(), documentRequestCommand.file().getContentType());
 
         DocumentUploadedEvent documentUploadedEvent = new DocumentUploadedEvent(document.getId(), document.getFilePath(), document.getStatus().name());
 
