@@ -34,7 +34,6 @@ public class DocumentController {
     @Operation(summary = "Upload de documento", description = "Recebe um arquivo e inicia o processamento do documento.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Documento enviado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Recurso não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno ao processar o documento")
     })
     public ResponseEntity<Void> uploadDocument(
