@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: async-document-processor
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:hml}
+  config:
+    import: optional:file:.env.hml[.properties]
+
+server:
+  servlet:
+    context-path: /processor
+  port: 8080
