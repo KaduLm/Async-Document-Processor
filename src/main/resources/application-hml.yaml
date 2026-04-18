@@ -1,11 +1,11 @@
 spring:
   application:
-    name: ${SPRING_APPLICATION_NAME}
+    name: async-document-processor
 
   servlet:
     multipart:
-      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE}
-      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE}
+      max-file-size: 100MB
+      max-request-size: 100MB
 
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS}
@@ -26,22 +26,22 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
-    show-sql: ${SPRING_JPA_SHOW_SQL}
+    show-sql: true
     hibernate:
-      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      ddl-auto: update
     properties:
-      hibernate.format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL}
+      hibernate.format_sql: true
 
 springdoc:
   api-docs:
-    path: ${SPRINGDOC_API_DOCS_PATH}
+    path: /v3/api-docs
 
   swagger-ui:
-    path: ${SPRINGDOC_SWAGGER_UI_PATH}
-    operationsSorter: ${SPRINGDOC_SWAGGER_UI_OPERATIONSSORTER}
-    tagsSorter: ${SPRINGDOC_SWAGGER_UI_TAGSSORTER}
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
 
-  show-actuator: ${SPRINGDOC_SHOW_ACTUATOR}
+  show-actuator: true
