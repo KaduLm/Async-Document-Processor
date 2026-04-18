@@ -1,49 +1,47 @@
 spring:
   application:
-    name: async-document-processor
+    name: ${SPRING_APPLICATION_NAME:async-document-processor}
 
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: ${SPRING_SERVLET_MULTIPART_MAX_FILE_SIZE:100MB}
+      max-request-size: ${SPRING_SERVLET_MULTIPART_MAX_REQUEST_SIZE:100MB}
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      key-serializer: ${SPRING_KAFKA_PRODUCER_KEY_SERIALIZER:org.apache.kafka.common.serialization.StringSerializer}
+      value-serializer: ${SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER:org.springframework.kafka.support.serializer.JsonSerializer}
       properties:
-        spring.json.add.type.headers: false
+        spring.json.add.type.headers: ${SPRING_KAFKA_PRODUCER_PROPERTIES_SPRING_JSON_ADD_TYPE_HEADERS:false}
 
   minio:
-    url: http://localhost:9000
-    access-key: admin
-    secret-key: password
-    bucket: documents
-    region: us-east-1
-
-
+    url: ${SPRING_MINIO_URL:http://localhost:9000}
+    access-key: ${SPRING_MINIO_ACCESS_KEY:admin}
+    secret-key: ${SPRING_MINIO_SECRET_KEY:password}
+    bucket: ${SPRING_MINIO_BUCKET:documents}
+    region: ${SPRING_MINIO_REGION:us-east-1}
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: ${DATASOURCE_USERNAME:postgres}
-    password: ${DATASOURCE_PASSWORD:postgres}
-    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
 
   jpa:
-    show-sql: true
+    show-sql: ${SPRING_JPA_SHOW_SQL:true}
     hibernate:
-      ddl-auto: update
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     properties:
-      hibernate.format_sql: true
+      hibernate.format_sql: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL:true}
 
 springdoc:
   api-docs:
-    path: /v3/api-docs
+    path: ${SPRINGDOC_API_DOCS_PATH:/v3/api-docs}
 
   swagger-ui:
-    path: /swagger-ui.html
-    operationsSorter: method
-    tagsSorter: alpha
+    path: ${SPRINGDOC_SWAGGER_UI_PATH:/swagger-ui.html}
+    operationsSorter: ${SPRINGDOC_SWAGGER_UI_OPERATIONSSORTER:method}
+    tagsSorter: ${SPRINGDOC_SWAGGER_UI_TAGSSORTER:alpha}
 
-  show-actuator: true
+  show-actuator: ${SPRINGDOC_SHOW_ACTUATOR:true}
