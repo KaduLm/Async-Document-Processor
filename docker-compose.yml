@@ -46,6 +46,26 @@ services:
     networks:
       - kafka-net
 
+#  postgres:
+#    image: postgres:15
+#    container_name: postgres
+#    environment:
+#      POSTGRES_DB: postgres
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#    ports:
+#      - "5432:5432"
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: pdfdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+
+
 networks:
   kafka-net:
     driver: bridge

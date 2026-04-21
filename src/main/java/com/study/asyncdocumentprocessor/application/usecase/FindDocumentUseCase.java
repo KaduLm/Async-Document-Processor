@@ -1,5 +1,6 @@
 package com.study.asyncdocumentprocessor.application.usecase;
 
+import com.study.asyncdocumentprocessor.domain.model.Document;
 import com.study.asyncdocumentprocessor.domain.port.MinIOPort;
 import com.study.asyncdocumentprocessor.domain.repository.DocumentRepository;
 import com.study.asyncdocumentprocessor.infrastructure.in.web.dto.DocumentResponseDTO;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -18,9 +20,7 @@ public class FindDocumentUseCase {
     private final DocumentMapper documentMapper;
 
 
-    public DocumentResponseDTO findById(UUID id){
-        return documentRepository.findById(id).map(documentMapper::toDocumentResponseDTO)
-                .orElseThrow();
-
+    public List<DocumentResponseDTO> findByQuery(String query){
+        return documentRepository.findByQuery(query).stream().map(documentMapper::toDocumentResponseDTO).toList();
     }
 }

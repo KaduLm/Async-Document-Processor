@@ -13,12 +13,14 @@ import java.util.UUID;
 public class DocumentEntity {
 
     @Id
+    @Column(columnDefinition = "uuid")
     private UUID id;
     private String filePath;
 
     @Enumerated(EnumType.STRING)
     private ProcessingStatus status;
 
+    @Column(columnDefinition = "TEXT")
     private String extractedText;
 
     private LocalDateTime createdAt;
