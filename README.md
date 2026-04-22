@@ -59,19 +59,14 @@ O sistema segue uma arquitetura baseada em eventos e separação de responsabili
 
 ---
 
-## 🔄 Fluxo de Funcionamento
+Fluxo de Processamento
 
-1. Upload de PDF via API  
-2. Armazenamento no MinIO  
-3. Publicação de evento no Kafka  
-4. Worker consome e processa o documento  
-5. Extração de texto:
-   - PDFBox (PDF digital)
-   - OCR (Tesseract via Tess4J)  
-6. Parsing de dados estruturados (CPF, nome, etc.)  
-7. Geração de embeddings  
-8. Armazenamento no banco vetorial  
-9. Disponibilização para busca e consulta  
+Recebe upload do documento via HTTP
+Valida arquivo (tipo MIME, tamanho, antivírus)
+Salva metadados no PostgreSQL com status UPLOADED
+Upload para S3 AWS
+Publica mensagem no Kafka topic
+Retorna 202 Accepted ao cliente
 
 ---
 
