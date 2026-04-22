@@ -27,7 +27,7 @@ O sistema segue uma arquitetura baseada em eventos e separação de responsabili
 - **API Service**: recebe uploads de documentos  
 - **Message Broker**: Apache Kafka  
 - **Worker**: processamento assíncrono dos PDFs  
-- **Storage**: MinIO  
+- **Storage**: S3  
 - **Banco de Dados**: PostgreSQL + pgvector  
 
 ---
@@ -35,7 +35,7 @@ O sistema segue uma arquitetura baseada em eventos e separação de responsabili
 ## ⚙️ Tecnologias Utilizadas
 
 ### Backend
-- ☕ Java 17+
+- ☕ Java 25+
 - 🌱 Spring Boot
 
 ### Mensageria
@@ -46,15 +46,16 @@ O sistema segue uma arquitetura baseada em eventos e separação de responsabili
 - 🔍 Tess4J
 
 ### Armazenamento
-- 📦 MinIO
+- 📦 S3
 
 ### IA e Busca Semântica
-- 🤖 OpenAI
 - 🔗 LangChain4j
 - 🧠 pgvector (PostgreSQL)
 
 ### Infra
 - 🐳 Docker
+-  Jenkins
+
 
 ---
 
@@ -74,14 +75,19 @@ O sistema segue uma arquitetura baseada em eventos e separação de responsabili
 
 ---
 
-## 🔍 Funcionalidades
+## 🔄 Fluxo de Funcionamento
 
-- ✅ Upload assíncrono de documentos  
-- ✅ Extração de texto com fallback inteligente (PDF → OCR)  
-- ✅ Parsing de dados estruturados  
-- ✅ Busca semântica com embeddings  
-- ✅ API de perguntas (RAG)  
-- ✅ Tratamento de falhas com DLQ (Kafka)  
+1. Recebe requisição de upload
+2. Valida arquivo:
+   - Tipo (PDF)
+   - Tamanho
+   - Segurança (opcional)
+3. Salva metadados no banco:
+   ```json
+   {
+     "id": "123",
+     "status": "UPLOADED"
+   }
 
 ---
 
